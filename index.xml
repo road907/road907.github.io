@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nil</title>
-    <link>https://road907.com/</link>
+    <link>https://road907.github.io/</link>
     <description>Recent content on nil</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Road907</copyright>
     <lastBuildDate>Sun, 16 Jun 2019 18:17:07 +0800</lastBuildDate>
     
-	<atom:link href="https://road907.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://road907.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>计算机考古之软件安装与卸载</title>
-      <link>https://road907.com/2019/06/16/install-uninstall/</link>
+      <link>https://road907.github.io/2019/06/16/install-uninstall/</link>
       <pubDate>Sun, 16 Jun 2019 18:17:07 +0800</pubDate>
       
-      <guid>https://road907.com/2019/06/16/install-uninstall/</guid>
+      <guid>https://road907.github.io/2019/06/16/install-uninstall/</guid>
       <description>作为一个程序员， 当我们说安装软件的时候，到底在做什么呢？ 比如，我们如果要在一台Debian系统上，安装Kubelet， 常用操作是：
 curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add cat &amp;lt;&amp;lt;EOF &amp;gt;/etc/apt/sources.list.d/kubernetes.list deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main EOF apt-get update apt-get install kubelet  那么，这篇文章将梳理这几条命令背后做了什么， 也就是Debian软件管理的大概了。 此问题，可分为四个层次： 
 Filesystem Hierarchy Standard 文件系统分层标准， 即类UNIX操作系统上，各个目录和文件的使用标准。 例如：
@@ -29,19 +29,19 @@ Software Package Debian 的软件包即一个包含了安装内容、安装信�
     
     <item>
       <title>About us</title>
-      <link>https://road907.com/about/about-us/</link>
+      <link>https://road907.github.io/about/about-us/</link>
       <pubDate>Fri, 03 Apr 2015 02:13:50 +0000</pubDate>
       
-      <guid>https://road907.com/about/about-us/</guid>
+      <guid>https://road907.github.io/about/about-us/</guid>
       <description>About Just three engineer guys inspire by six beers.</description>
     </item>
     
     <item>
       <title>First meetup</title>
-      <link>https://road907.com/project/meetup/</link>
+      <link>https://road907.github.io/project/meetup/</link>
       <pubDate>Tue, 18 Nov 2014 02:13:50 +0000</pubDate>
       
-      <guid>https://road907.com/project/meetup/</guid>
+      <guid>https://road907.github.io/project/meetup/</guid>
       <description>Meet up Not hosting yet</description>
     </item>
     
