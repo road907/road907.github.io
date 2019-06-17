@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>nil</title>
-    <link>https://road907.com/</link>
-    <description>Recent content on nil</description>
+    <title>Posts on nil</title>
+    <link>https://road907.com/post/</link>
+    <description>Recent content in Posts on nil</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Road907</copyright>
     <lastBuildDate>Sun, 16 Jun 2019 18:17:07 +0800</lastBuildDate>
     
-	<atom:link href="https://road907.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://road907.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -25,24 +25,6 @@ Filesystem Hierarchy Standard 文件系统分层标准， 即类UNIX操作系统
 Software Package Debian 的软件包即一个包含了安装内容、安装信息的归档文件。 可以用 sudo apt-get download kubelet ， 把要安装的.deb文件下载下来。然后打开这个归档，可以看到如下结构：
 
  debian-binay: 只有一行内容， 指示这个.deb包格式的版本号， 目前为2.</description>
-    </item>
-    
-    <item>
-      <title>About us</title>
-      <link>https://road907.com/about/about-us/</link>
-      <pubDate>Fri, 03 Apr 2015 02:13:50 +0000</pubDate>
-      
-      <guid>https://road907.com/about/about-us/</guid>
-      <description>About Just three engineer guys inspire by six beers.</description>
-    </item>
-    
-    <item>
-      <title>First meetup</title>
-      <link>https://road907.com/project/meetup/</link>
-      <pubDate>Tue, 18 Nov 2014 02:13:50 +0000</pubDate>
-      
-      <guid>https://road907.com/project/meetup/</guid>
-      <description>Meet up Not hosting yet</description>
     </item>
     
   </channel>
