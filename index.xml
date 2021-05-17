@@ -28,8 +28,7 @@ Mesos是为解决特定问题所生，只是能够用来解决通用问题，比
       
       <guid>https://road907.github.io/2019/06/16/install-uninstall/</guid>
       <description>作为一个程序员， 当我们说安装软件的时候，到底在做什么呢？ 比如，我们如果要在一台Debian系统上，安装Kubelet， 常用操作是：
-curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add cat &amp;lt;&amp;lt;EOF &amp;gt;/etc/apt/sources.list.d/kubernetes.list deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main EOF apt-get update apt-get install kubelet  那么，这篇文章将梳理这几条命令背后做了什么， 也就是Debian软件管理的大概了。 此问题，可分为四个层次：
-Filesystem Hierarchy Standard 文件系统分层标准， 即类UNIX操作系统上，各个目录和文件的使用标准。 例如：
+curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add cat &amp;lt;&amp;lt;EOF &amp;gt;/etc/apt/sources.list.d/kubernetes.list deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main EOF apt-get update apt-get install kubelet  那么，这篇文章将梳理这几条命令背后做了什么， 也就是Debian软件管理的大概了。 此问题，可分为四个层次： Filesystem Hierarchy Standard 文件系统分层标准， 即类UNIX操作系统上，各个目录和文件的使用标准。 例如：
  /user 原则上放置共享、只读数据 。 比如 /user/bin /user/lib /var 原则上放置可以变数据。比如 /var/log /var/cache  为什么关心这个呢？ 因为操作系统本身是个Software， Debian Software 是对 &amp;ldquo;OS Software&amp;quot;的扩展。所谓的安装最重要的就是把 软件相关文件plug到操作系统的文件系统中，而卸载是要把这些文件删除掉。
 Software Package Debian 的软件包即一个包含了安装内容、安装信息的归档文件。 可以用 sudo apt-get download kubelet ， 把要安装的.deb文件下载下来。然后打开这个归档，可以看到如下结构：
  debian-binay: 只有一行内容， 指示这个.deb包格式的版本号， 目前为2.0 data.tar.xz: 为安装的内容， 可见他是按上述FHS来做的， 包含一个可执行文件kubelet 和 一个systemd配置。 control.</description>
