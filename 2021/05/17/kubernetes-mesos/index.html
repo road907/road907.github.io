@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>kubernetes vs mesos &middot; Road907</title>
+        <meta name="description" content="当kubernetes和mesos这两个词同时出现时，可能很多人仿佛看到了一个成功者与失败者站在一起，接下来可能会列举一堆mesos做不到，但是k8s完美解决的栗子。我们也会看到， 分别把kubernetes和mesos当作集中式调度和二层调度的代表，对比一通，作出前者更适应现代IT架构的结论。写这篇文章是想稍微消解对kubernetes的崇拜，提供一个更客观的评价这两种技术的角度。
+拿mesos和kubernetes比较是不公正的。 Mesos 论文开篇第一句就指出，mesos是一个让不同计算框架共享集群资源的框架， 它关注的核心指标是资源利用率。而kubernetes是一个容器编排框架，当然容器编排包含容器调度。 kubernetes的野心显然更大，它提供一套强有力的语言，去描述PaaS，从而让PaaS可编程化。mesos和kubernetes有交集，但是不能认为kubernetes是在同一个问题上更好的解决方案。 Mesos为了让不同计算框架共享集群，提出了二层调度方案， 让上层的计算框架调度任务，而mesos本身对资源进行抽象并进行资源层面的调度，更适合短任务调度或者批量任务，比如Hadoop。kubernetes 是个更宏大的事情，他提供一套语言，去描述资源、描述工作负载等等，希望所有的service能跑在他上面，所以他的设计实现首先要考虑的是最常见的应用场景，最常见的应用场景就是deployment, 即无状态的副本集合；鱼与熊掌不可兼得，kubernetes对短任务调度的支持我认为是不如mesos来的直接。
+Mesos是为解决特定问题所生，只是能够用来解决通用问题，比如Marathon, 一个使用mesos做调度的容器编排框架；kubernetes是为了解决通用问题而生，所以在特定问题上会显出冗余和掣肘。 Mesos从一开始就应该持有拥抱kubernetes的姿态，而不是竞争，mesos应该去弥补kubernetes在短任务调度中的不足。 我觉得在FaaS上，能看出kubernetes这种通用设计的局限性，并且mesos有它的优势。 faas倡导的是按需部署、按需计费，但是我们看基于kubernetes的faas解决方案（比如Fission、OpenFaas)是怎么实现的呢：把每种函数的负载（pod）用一个deployment(或者类似的自定义resources)关联起来，然后利用嵌入autoscaler机制，动态调整副本数。有两个问题很难解决：
+ 扩缩容策略。 我们也做过，但是复杂度可以说极高了。 调度流程延迟对冷启动速度的影响。 scaler决策 -&gt; pod创建/删除 -&gt; k8s scheduler调度pod -&gt; kubelet启动pod。 资源利用率的问题。函数的流量是波动，那么deployment的副本值是一段时间内函数的最高调用量决定的。当多个函数混部时，这就造成了“资源空洞” 。  如果我们用mesos去做的呢：
+ 扩缩容策略：不需要特别的扩容策略，有资源(offer)有任务就扩容； 缩容策略可以非常简单，定期删除idle函数实例或者主动删除idle函数实例。 调度流程简单： 创建删除pod -&gt; mesos-master -&gt; mesos-slave。 资源利用率： 因为是真正的按需分配，所以就没有资源空洞，这正是mesos擅长的。  ">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.83.1" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="kubernetes vs mesos">
+<meta property="og:description" content="当kubernetes和mesos这两个词同时出现时，可能很多人仿佛看到了一个成功者与失败者站在一起，接下来可能会列举一堆mesos做不到，但是k8s完美解决的栗子。我们也会看到， 分别把kubernetes和mesos当作集中式调度和二层调度的代表，对比一通，作出前者更适应现代IT架构的结论。写这篇文章是想稍微消解对kubernetes的崇拜，提供一个更客观的评价这两种技术的角度。
+拿mesos和kubernetes比较是不公正的。 Mesos 论文开篇第一句就指出，mesos是一个让不同计算框架共享集群资源的框架， 它关注的核心指标是资源利用率。而kubernetes是一个容器编排框架，当然容器编排包含容器调度。 kubernetes的野心显然更大，它提供一套强有力的语言，去描述PaaS，从而让PaaS可编程化。mesos和kubernetes有交集，但是不能认为kubernetes是在同一个问题上更好的解决方案。 Mesos为了让不同计算框架共享集群，提出了二层调度方案， 让上层的计算框架调度任务，而mesos本身对资源进行抽象并进行资源层面的调度，更适合短任务调度或者批量任务，比如Hadoop。kubernetes 是个更宏大的事情，他提供一套语言，去描述资源、描述工作负载等等，希望所有的service能跑在他上面，所以他的设计实现首先要考虑的是最常见的应用场景，最常见的应用场景就是deployment, 即无状态的副本集合；鱼与熊掌不可兼得，kubernetes对短任务调度的支持我认为是不如mesos来的直接。
+Mesos是为解决特定问题所生，只是能够用来解决通用问题，比如Marathon, 一个使用mesos做调度的容器编排框架；kubernetes是为了解决通用问题而生，所以在特定问题上会显出冗余和掣肘。 Mesos从一开始就应该持有拥抱kubernetes的姿态，而不是竞争，mesos应该去弥补kubernetes在短任务调度中的不足。 我觉得在FaaS上，能看出kubernetes这种通用设计的局限性，并且mesos有它的优势。 faas倡导的是按需部署、按需计费，但是我们看基于kubernetes的faas解决方案（比如Fission、OpenFaas)是怎么实现的呢：把每种函数的负载（pod）用一个deployment(或者类似的自定义resources)关联起来，然后利用嵌入autoscaler机制，动态调整副本数。有两个问题很难解决：
+ 扩缩容策略。 我们也做过，但是复杂度可以说极高了。 调度流程延迟对冷启动速度的影响。 scaler决策 -&gt; pod创建/删除 -&gt; k8s scheduler调度pod -&gt; kubelet启动pod。 资源利用率的问题。函数的流量是波动，那么deployment的副本值是一段时间内函数的最高调用量决定的。当多个函数混部时，这就造成了“资源空洞” 。  如果我们用mesos去做的呢：
+ 扩缩容策略：不需要特别的扩容策略，有资源(offer)有任务就扩容； 缩容策略可以非常简单，定期删除idle函数实例或者主动删除idle函数实例。 调度流程简单： 创建删除pod -&gt; mesos-master -&gt; mesos-slave。 资源利用率： 因为是真正的按需分配，所以就没有资源空洞，这正是mesos擅长的。  ">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://road907.github.io/2021/05/17/kubernetes-mesos/">
+        <link rel="stylesheet" href="https://road907.github.io/dist/site.css">
+        <link rel="stylesheet" href="https://road907.github.io/dist/syntax.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+        
+        
+
+    </head>
+    <body>
+        
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a href="https://road907.github.io/">nil</a>
+                            </h1>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/XXX" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/road907/website" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
+                            </a>
+                        
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:hit.lijun@gmail.com">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a href="/">主页</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/project/">活动</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a href="/about/">关于</a>
+    </li>
+
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">kubernetes vs mesos</h1>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2021-05-17" itemprop="datePublished">Mon, May 17, 2021</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="nil" itemprop="url" rel="author">Road907</a>
+            </span>
+        </span>
+    </p>
+    
+        <p class="post-reading post-line">
+            <span>Estimated reading time: 1 min</span>
+        </p>
+    
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <p>当kubernetes和mesos这两个词同时出现时，可能很多人仿佛看到了一个成功者与失败者站在一起，接下来可能会列举一堆mesos做不到，但是k8s完美解决的栗子。我们也会看到， 分别把kubernetes和mesos当作集中式调度和二层调度的代表，对比一通，作出前者更适应现代IT架构的结论。写这篇文章是想稍微消解对kubernetes的崇拜，提供一个更客观的评价这两种技术的角度。</p>
+<p>拿mesos和kubernetes比较是不公正的。 Mesos 论文开篇第一句就指出，mesos是一个让不同计算框架共享集群资源的框架， 它关注的核心指标是资源利用率。而kubernetes是一个容器编排框架，当然容器编排包含容器调度。 kubernetes的野心显然更大，它提供一套强有力的语言，去描述PaaS，从而让PaaS可编程化。mesos和kubernetes有交集，但是不能认为kubernetes是在同一个问题上更好的解决方案。 Mesos为了让不同计算框架共享集群，提出了二层调度方案， 让上层的计算框架调度任务，而mesos本身对资源进行抽象并进行资源层面的调度，更适合短任务调度或者批量任务，比如Hadoop。kubernetes 是个更宏大的事情，他提供一套语言，去描述资源、描述工作负载等等，希望所有的service能跑在他上面，所以他的设计实现首先要考虑的是最常见的应用场景，最常见的应用场景就是deployment, 即无状态的副本集合；鱼与熊掌不可兼得，kubernetes对短任务调度的支持我认为是不如mesos来的直接。</p>
+<!-- raw HTML omitted -->
+<p>Mesos是为解决特定问题所生，只是能够用来解决通用问题，比如Marathon, 一个使用mesos做调度的容器编排框架；kubernetes是为了解决通用问题而生，所以在特定问题上会显出冗余和掣肘。
+Mesos从一开始就应该持有拥抱kubernetes的姿态，而不是竞争，mesos应该去弥补kubernetes在短任务调度中的不足。 我觉得在FaaS上，能看出kubernetes这种通用设计的局限性，并且mesos有它的优势。 faas倡导的是按需部署、按需计费，但是我们看基于kubernetes的faas解决方案（比如Fission、OpenFaas)是怎么实现的呢：把每种函数的负载（pod）用一个deployment(或者类似的自定义resources)关联起来，然后利用嵌入autoscaler机制，动态调整副本数。有两个问题很难解决：</p>
+<ol>
+<li>扩缩容策略。 我们也做过，但是复杂度可以说极高了。</li>
+<li>调度流程延迟对冷启动速度的影响。 scaler决策 -&gt; pod创建/删除 -&gt; k8s scheduler调度pod -&gt;  kubelet启动pod。</li>
+<li>资源利用率的问题。函数的流量是波动，那么deployment的副本值是一段时间内函数的最高调用量决定的。当多个函数混部时，这就造成了“资源空洞” 。</li>
+</ol>
+<p>如果我们用mesos去做的呢：</p>
+<ol>
+<li>扩缩容策略：不需要特别的扩容策略，有资源(offer)有任务就扩容； 缩容策略可以非常简单，定期删除idle函数实例或者主动删除idle函数实例。</li>
+<li>调度流程简单： 创建删除pod -&gt;  mesos-master -&gt; mesos-slave。</li>
+<li>资源利用率： 因为是真正的按需分配，所以就没有资源空洞，这正是mesos擅长的。</li>
+</ol>
+<!-- raw HTML omitted -->
+
+</div>
+
+        <footer class="post-footer clearfix"><div class="share">
+            <a class="icon-twitter" href="https://twitter.com/share?text=kubernetes%20vs%20mesos&url=https%3a%2f%2froad907.github.io%2f2021%2f05%2f17%2fkubernetes-mesos%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2froad907.github.io%2f2021%2f05%2f17%2fkubernetes-mesos%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" aria-label="Share on Facebook">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+    </div>
+</footer>
+
+        
+    <div class="comments">
+        
+    </div>
+
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a href="https://road907.github.io/">nil</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2021 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://road907.github.io/js/jquery-1.11.3.min.js"></script>
+        <script src="https://road907.github.io/js/jquery.fitvids.js"></script>
+        <script src="https://road907.github.io/js/scripts.js"></script>
+    </body>
+</html>
+

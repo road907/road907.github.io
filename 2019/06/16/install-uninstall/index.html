@@ -5,50 +5,38 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>计算机考古之软件安装与卸载 &middot; Road907</title>
         <meta name="description" content="作为一个程序员， 当我们说安装软件的时候，到底在做什么呢？ 比如，我们如果要在一台Debian系统上，安装Kubelet， 常用操作是：
-curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main EOF apt-get update apt-get install kubelet  那么，这篇文章将梳理这几条命令背后做了什么， 也就是Debian软件管理的大概了。 此问题，可分为四个层次： 
+curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main EOF apt-get update apt-get install kubelet  那么，这篇文章将梳理这几条命令背后做了什么， 也就是Debian软件管理的大概了。 此问题，可分为四个层次：
 Filesystem Hierarchy Standard 文件系统分层标准， 即类UNIX操作系统上，各个目录和文件的使用标准。 例如：
- /user 原则上放置共享、只读数据 。 比如 /user/bin /user/lib /var 原则上放置可以变数据。比如 /var/log /var/cache  为什么关心这个呢？ 因为操作系统本身是个Software， Debian Software 是对 &ldquo;OS Software&rdquo;的扩展。所谓的安装最重要的就是把 软件相关文件plug到操作系统的文件系统中，而卸载是要把这些文件删除掉。
+ /user 原则上放置共享、只读数据 。 比如 /user/bin /user/lib /var 原则上放置可以变数据。比如 /var/log /var/cache  为什么关心这个呢？ 因为操作系统本身是个Software， Debian Software 是对 &ldquo;OS Software&quot;的扩展。所谓的安装最重要的就是把 软件相关文件plug到操作系统的文件系统中，而卸载是要把这些文件删除掉。
 Software Package Debian 的软件包即一个包含了安装内容、安装信息的归档文件。 可以用 sudo apt-get download kubelet ， 把要安装的.deb文件下载下来。然后打开这个归档，可以看到如下结构：
-
- debian-binay: 只有一行内容， 指示这个.deb包格式的版本号， 目前为2.">
+ debian-binay: 只有一行内容， 指示这个.deb包格式的版本号， 目前为2.0 data.tar.xz: 为安装的内容， 可见他是按上述FHS来做的， 包含一个可执行文件kubelet 和 一个systemd配置。 control.">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
-        <meta name="generator" content="Hugo 0.55.5" />
+        <meta name="generator" content="Hugo 0.83.1" />
         <meta name="robots" content="index,follow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta property="og:title" content="计算机考古之软件安装与卸载">
 <meta property="og:description" content="作为一个程序员， 当我们说安装软件的时候，到底在做什么呢？ 比如，我们如果要在一台Debian系统上，安装Kubelet， 常用操作是：
-curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main EOF apt-get update apt-get install kubelet  那么，这篇文章将梳理这几条命令背后做了什么， 也就是Debian软件管理的大概了。 此问题，可分为四个层次： 
+curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main EOF apt-get update apt-get install kubelet  那么，这篇文章将梳理这几条命令背后做了什么， 也就是Debian软件管理的大概了。 此问题，可分为四个层次：
 Filesystem Hierarchy Standard 文件系统分层标准， 即类UNIX操作系统上，各个目录和文件的使用标准。 例如：
- /user 原则上放置共享、只读数据 。 比如 /user/bin /user/lib /var 原则上放置可以变数据。比如 /var/log /var/cache  为什么关心这个呢？ 因为操作系统本身是个Software， Debian Software 是对 &ldquo;OS Software&rdquo;的扩展。所谓的安装最重要的就是把 软件相关文件plug到操作系统的文件系统中，而卸载是要把这些文件删除掉。
+ /user 原则上放置共享、只读数据 。 比如 /user/bin /user/lib /var 原则上放置可以变数据。比如 /var/log /var/cache  为什么关心这个呢？ 因为操作系统本身是个Software， Debian Software 是对 &ldquo;OS Software&quot;的扩展。所谓的安装最重要的就是把 软件相关文件plug到操作系统的文件系统中，而卸载是要把这些文件删除掉。
 Software Package Debian 的软件包即一个包含了安装内容、安装信息的归档文件。 可以用 sudo apt-get download kubelet ， 把要安装的.deb文件下载下来。然后打开这个归档，可以看到如下结构：
-
- debian-binay: 只有一行内容， 指示这个.deb包格式的版本号， 目前为2.">
+ debian-binay: 只有一行内容， 指示这个.deb包格式的版本号， 目前为2.0 data.tar.xz: 为安装的内容， 可见他是按上述FHS来做的， 包含一个可执行文件kubelet 和 一个systemd配置。 control.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://road907.github.io/2019/06/16/install-uninstall/">
-        <link rel="stylesheet" href="https://road907.github.io/dist/styles.css">
+        <link rel="stylesheet" href="https://road907.github.io/dist/site.css">
+        <link rel="stylesheet" href="https://road907.github.io/dist/syntax.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         
         
         
+        
+        
+
     </head>
     <body>
         
-<script type="application/javascript">
-var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-var doNotTrack = (dnt == "1" || dnt == "yes");
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'Road907', 'auto');
-	ga('set', 'anonymizeIp', true);
-	ga('send', 'pageview');
-}
-</script>
-
 
         <div id="wrapper">
             <header class="site-header">
@@ -56,32 +44,27 @@ if (!doNotTrack) {
                     <div class="site-title-wrapper">
                         
                             <h1 class="site-title">
-                                <a title="nil" href="https://road907.github.io/">nil</a>
+                                <a href="https://road907.github.io/">nil</a>
                             </h1>
                         
-                        <a class="button-square" href="https://road907.github.io/index.xml"><i class="fa fa-rss"></i></a>
                         
-                            <a class="button-square button-social hint--top" data-hint="Twitter" title="Twitter" href="https://twitter.com/XXX" rel="me">
-                                <i class="fa fa-twitter"></i>
+                        
+                            <a class="button-square button-social hint--top" data-hint="Twitter" aria-label="Twitter" href="https://twitter.com/XXX" rel="me" >
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
                             </a>
                         
                         
                         
                         
-                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/road907/website" rel="me">
-                                <i class="fa fa-github-alt"></i>
+                            <a class="button-square button-social hint--top" data-hint="Github" aria-label="Github" href="https://github.com/road907/website" rel="me">
+                                <i class="fa fa-github-alt" aria-hidden="true"></i>
                             </a>
                         
                         
                         
                         
-                            <a class="button-square button-social hint--top" data-hint="Google+" title="Google+" href="https://google.com/&#43;XXX" rel="me">
-                                <i class="fa fa-google-plus"></i>
-                            </a>
-                        
-                        
-                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:hit.lijun@gmail.com">
-                                <i class="fa fa-envelope"></i>
+                            <a class="button-square button-social hint--top" data-hint="Email" aria-label="Send an Email" href="mailto:hit.lijun@gmail.com">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
                             </a>
                         
                     </div>
@@ -89,16 +72,17 @@ if (!doNotTrack) {
                     <ul class="site-nav">
                         
     <li class="site-nav-item">
-        <a title="主页" href="/">主页</a>
+        <a href="/">主页</a>
     </li>
 
     <li class="site-nav-item">
-        <a title="活动" href="/project/">活动</a>
+        <a href="/project/">活动</a>
     </li>
 
     <li class="site-nav-item">
-        <a title="关于" href="/about/">关于</a>
+        <a href="/about/">关于</a>
     </li>
+
 
                     </ul>
                 </div>
@@ -131,11 +115,8 @@ if (!doNotTrack) {
         <div class="post-content clearfix" itemprop="articleBody">
     
 
-    
-
-<p>作为一个程序员， 当我们说安装软件的时候，到底在做什么呢？
+    <p>作为一个程序员， 当我们说安装软件的时候，到底在做什么呢？
 比如，我们如果要在一台Debian系统上，安装Kubelet， 常用操作是：</p>
-
 <pre><code>curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add 
 cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list
 deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
@@ -143,41 +124,30 @@ EOF
 apt-get update
 apt-get install  kubelet 
 </code></pre>
-
 <p>那么，这篇文章将梳理这几条命令背后做了什么， 也就是Debian软件管理的大概了。
-此问题，可分为四个层次：
-<center><img src="/layers.jpg" alt="debian 包管理层次" /></center></p>
-
+此问题，可分为四个层次：</p>
+<!-- raw HTML omitted -->
 <h2 id="filesystem-hierarchy-standard">Filesystem Hierarchy Standard</h2>
-
 <p>文件系统分层标准， 即类UNIX操作系统上，各个目录和文件的使用标准。 例如：</p>
-
 <ul>
 <li>/user 原则上放置共享、只读数据 。  比如 /user/bin  /user/lib</li>
 <li>/var 原则上放置可以变数据。比如 /var/log   /var/cache</li>
 </ul>
-
-<p>为什么关心这个呢？ 因为操作系统本身是个Software， Debian Software 是对 &ldquo;OS Software&rdquo;的扩展。所谓的安装最重要的就是把
+<p>为什么关心这个呢？ 因为操作系统本身是个Software， Debian Software 是对 &ldquo;OS Software&quot;的扩展。所谓的安装最重要的就是把
 软件相关文件plug到操作系统的文件系统中，而卸载是要把这些文件删除掉。</p>
-
 <h2 id="software-package">Software Package</h2>
-
 <p>Debian 的软件包即一个包含了安装内容、安装信息的归档文件。
 可以用 sudo apt-get download kubelet ， 把要安装的.deb文件下载下来。然后打开这个归档，可以看到如下结构：</p>
-
-<p><center><img src="/deb-files.jpeg" alt="debian package content" /></center></p>
-
+<!-- raw HTML omitted -->
 <ul>
 <li>debian-binay:  只有一行内容， 指示这个.deb包格式的版本号， 目前为2.0</li>
 <li>data.tar.xz:   为安装的内容， 可见他是按上述FHS来做的， 包含一个可执行文件kubelet 和  一个systemd配置。</li>
 <li>control.tar.gz:  包含包控制信息。</li>
 </ul>
-
 <p>详细看下包控制信息：</p>
-
 <ul>
-<li><p>control:  比较重要的信息是版本号、架构、依赖。打开看：</p>
-
+<li>control:  比较重要的信息是版本号、架构、依赖。打开看：</li>
+</ul>
 <pre><code>Package: kubelet
 Version: 1.14.2-00
 Architecture: amd64
@@ -188,37 +158,26 @@ Section: misc
 Priority: optional
 Homepage: https://kubernetes.io
 Description: Kubernetes Node Agent
-</code></pre></li>
-
-<li><p>md5sums:  顾名思义, 包体的哈希值，用于校验包的安全性</p></li>
-
-<li><p>prerm\postinst\postrm:   为可执行脚本，在软件生命周期的不同阶段触发执行。postinst 是软件安装完后，要执行的脚本， 打开看有如下内容：</p>
-
-<pre><code>if [ -d /run/systemd/system ]; then
-systemctl --system daemon-reload &gt;/dev/null || true
-deb-systemd-invoke start kubelet.service &gt;/dev/null || true
-fi
-</code></pre>
-
-<p>意思就是安装后，加入systemd并启动啦。</p></li>
+</code></pre><ul>
+<li>md5sums:  顾名思义, 包体的哈希值，用于校验包的安全性</li>
+<li>prerm\postinst\postrm:   为可执行脚本，在软件生命周期的不同阶段触发执行。postinst 是软件安装完后，要执行的脚本， 打开看有如下内容：</li>
 </ul>
-
+<pre><code>if [ -d /run/systemd/system ]; then
+    systemctl --system daemon-reload &gt;/dev/null || true
+    deb-systemd-invoke start kubelet.service &gt;/dev/null || true
+fi
+</code></pre><p>意思就是安装后，加入systemd并启动啦。</p>
 <h2 id="local-software-management">Local Software Management</h2>
-
 <p>dpkg 是debian用来管理本地软件的。<code>apt-get install</code>在本地安装时依赖的是dpkg。 比如用<code>dpk -l</code>可查看系统上所有debian软件。
 <code>/var/lib/dpkg/</code> 目录可认为是dpkg的数据库，记录所有软件装填。
 <code>/var/lib/dpkg/info</code> 存放了所有安装软件的控制信息。
 比如现在我们使用”sudo apt-get instal kubelet“,  即可看到如下文件:</p>
-
 <pre><code>-rw-r--r-- 1 root root  108 Jun  1 17:11 kubelet.list
 -rw-r--r-- 1 root root  119 May 17 03:29 kubelet.md5sums
 -rwxr-xr-x 1 root root 1938 May 17 03:29 kubelet.postinst
 -rwxr-xr-x 1 root root  590 May 17 03:29 kubelet.postrm
 -rwxr-xr-x 1 root root  184 May 17 03:29 kubelet.prerm
-</code></pre>
-
-<p>打开kubelet.list看：</p>
-
+</code></pre><p>打开kubelet.list看：</p>
 <pre><code>/.
 /lib
 /lib/systemd
@@ -227,83 +186,51 @@ fi
 /usr
 /usr/bin
 /usr/bin/kubelet
-</code></pre>
-
-<p>即包含了所有安装内容，那么卸载的时候就会删除这些文件，相关脚本也会执行，比如postrm。</p>
-
+</code></pre><p>即包含了所有安装内容，那么卸载的时候就会删除这些文件，相关脚本也会执行，比如postrm。</p>
 <h2 id="distributed-software-management">Distributed Software Management</h2>
-
 <p>分布式软件管理是完整的一套机制，可想到包括： 软件仓库、版本管理、依赖管理。
-APT只是Debian分布式软件管理的客户端。
-<center><img src="/distributed-packages.jpg" alt="distributed pkg mgm" /></center></p>
-
+APT只是Debian分布式软件管理的客户端。</p>
+<!-- raw HTML omitted -->
 <p>如上， 远程仓库核心的两份数据是，它托管的所有应用包和应用包的索引。
 apt 会在本地通过sources.list文件配置可用仓库的地址。
 <code>apt-get update</code> 即拉取索引信息， apt即可知道每个仓库托管了什么应用。
 <code>apt-get install</code> 就是从响应的仓库拉取应用并且调用dpkg安装了。</p>
-
-<p>以阿里云的镜像仓库<code>https://mirrors.aliyun.com/kubernetes</code>为例，其目录结构大概如下：
-<center><img src="/ali-pkg-repos.png" alt="ali-repos" /></center></p>
-
+<p>以阿里云的镜像仓库<code>https://mirrors.aliyun.com/kubernetes</code>为例，其目录结构大概如下：</p>
+<!-- raw HTML omitted -->
 <ul>
 <li>dists:  内部存储索引信息，不过不是把所以索引放到一个packages.gz文件，而是又有两个层次。</li>
 <li>pool:   存储所有应用包啦。</li>
 <li>doc:  文档、秘钥等。</li>
 </ul>
-
 <p>与APT相关的重要目录有：</p>
-
 <ul>
 <li><code>/etc/apt/sources.list</code>  或者  <code>/etc/apt/sources.list.d/</code>  配置仓库地址。</li>
 <li><code>/var/lib/apt/lists/</code> ： <code>apt-get update</code> 拉取所有仓库的索引信息会放到这。</li>
 <li><code>/var/cache/apt/archives/</code> ： 存放所有从仓库下载的包。</li>
 </ul>
-
 <p>看下<code>sources.list</code>仓库地址是怎么配的，假设有如下下配置：</p>
-
 <pre><code>deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main contrib
-</code></pre>
-
-<p>apt 可以拉取的所有信息包括两个：</p>
-
+</code></pre><p>apt 可以拉取的所有信息包括两个：</p>
 <pre><code>https://mirrors.aliyun.com/kubernetes/apt/dists/kubernetes-xenial/main
 https://mirrors.aliyun.com/kubernetes/apt/dists/kubernetes-xenial/contrib
-</code></pre>
-
-<p>即 main contrib 为并列的概念，在Debian设计中，他们叫&rdquo;Archive Area&rdquo;。</p>
-
+</code></pre><p>即 main contrib 为并列的概念，在Debian设计中，他们叫&quot;Archive Area&rdquo;。</p>
 <p>回到一开始的问题，逐行分析APT干了什么：</p>
-
 <pre><code>curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add 
-</code></pre>
-
-<p>因为要添加一个软件仓库， 处于安全考虑，需要添加对应的秘钥，用于验证下载的包没有经过篡改。</p>
-
+</code></pre><p>因为要添加一个软件仓库， 处于安全考虑，需要添加对应的秘钥，用于验证下载的包没有经过篡改。</p>
 <pre><code>cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list
 deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
 EOF 
-</code></pre>
-
-<p>即添加仓库地址</p>
-
+</code></pre><p>即添加仓库地址</p>
 <pre><code>apt-get update
-</code></pre>
-
-<p>拉取索引。执行完成后，到<code>/var/lib/apt/lists/</code> 下看，有如下索引信息：</p>
-
+</code></pre><p>拉取索引。执行完成后，到<code>/var/lib/apt/lists/</code> 下看，有如下索引信息：</p>
 <pre><code>mirrors.aliyun.com_kubernetes_apt_dists_kubernetes-xenial_main_binary-amd64_Packages
-</code></pre>
-
-<p>，打开看, 是各种包的索引信息：
-<center><img src="/apt-pkg-indexes.png" alt="apt-indexes" /></center>
-<code>apt-get install kubelet</code> , 根据索引信息的filename拉取应用包并安装。</p>
-
+</code></pre><p>，打开看, 是各种包的索引信息：</p>
+<!-- raw HTML omitted -->
 <p>参考：</p>
-
 <ol>
-<li><a href="https://en.wikipedia.org/wiki/Deb_(file_format">https://en.wikipedia.org/wiki/Deb_(file_format</a>)</li>
+<li><a href="https://en.wikipedia.org/wiki/Deb_(file_format)">https://en.wikipedia.org/wiki/Deb_(file_format)</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Dpkg">https://en.wikipedia.org/wiki/Dpkg</a></li>
-<li><a href="https://en.wikipedia.org/wiki/APT_(Package_Manager">https://en.wikipedia.org/wiki/APT_(Package_Manager</a>)</li>
+<li><a href="https://en.wikipedia.org/wiki/APT_(Package_Manager)">https://en.wikipedia.org/wiki/APT_(Package_Manager)</a></li>
 <li><a href="http://www.pathname.com/fhs/pub/fhs-2.3.pdf">http://www.pathname.com/fhs/pub/fhs-2.3.pdf</a></li>
 <li><a href="https://www.debian.org/doc/debian-policy/index.html">https://www.debian.org/doc/debian-policy/index.html</a></li>
 <li><a href="https://www.jianshu.com/p/6432015c52a6">https://www.jianshu.com/p/6432015c52a6</a></li>
@@ -312,34 +239,15 @@ EOF
 
 </div>
 
-        <footer class="post-footer clearfix">
-    
-
-    <div class="share">
-        
+        <footer class="post-footer clearfix"><div class="share">
             <a class="icon-twitter" href="https://twitter.com/share?text=%e8%ae%a1%e7%ae%97%e6%9c%ba%e8%80%83%e5%8f%a4%e4%b9%8b%e8%bd%af%e4%bb%b6%e5%ae%89%e8%a3%85%e4%b8%8e%e5%8d%b8%e8%bd%bd&url=https%3a%2f%2froad907.github.io%2f2019%2f06%2f16%2finstall-uninstall%2f"
-                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                <i class="fa fa-twitter"></i>
-                <span class="hidden">Twitter</span>
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" aria-label="Share on Twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
             </a>
-        
-
-        
             <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2froad907.github.io%2f2019%2f06%2f16%2finstall-uninstall%2f"
-                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                <i class="fa fa-facebook"></i>
-                <span class="hidden">Facebook</span>
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" aria-label="Share on Facebook">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
             </a>
-        
-
-        
-            <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2froad907.github.io%2f2019%2f06%2f16%2finstall-uninstall%2f"
-              onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-              <i class="fa fa-google-plus"></i>
-                <span class="hidden">Google+</span>
-            </a>
-        
-        
     </div>
 </footer>
 
@@ -358,15 +266,15 @@ EOF
             <div class="container">
                 <div class="site-title-wrapper">
                     <h1 class="site-title">
-                        <a title="nil" href="https://road907.github.io/">nil</a>
+                        <a href="https://road907.github.io/">nil</a>
                     </h1>
-                    <a class="button-square button-jump-top js-jump-top" href="#">
-                        <i class="fa fa-angle-up"></i>
+                    <a class="button-square button-jump-top js-jump-top" href="#" aria-label="Back to Top">
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
                     </a>
                 </div>
 
                 <p class="footer-copyright">
-                    <span>&copy; 2019 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                    <span>&copy; 2021 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
                 </p>
                 <p class="footer-copyright">
                     <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
@@ -377,11 +285,6 @@ EOF
 
         <script src="https://road907.github.io/js/jquery-1.11.3.min.js"></script>
         <script src="https://road907.github.io/js/jquery.fitvids.js"></script>
-        
-        
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        
-        
         <script src="https://road907.github.io/js/scripts.js"></script>
     </body>
 </html>
